@@ -211,6 +211,50 @@
   color: #fff;
 }
 
+.add-client-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.add-client-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.add-client-form input {
+  font-weight: 400;
+  padding: 10px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.add-client-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.form-error {
+  color: var(--danger);
+  font-size: 13px;
+  margin: 0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
 .empty-row {
   text-align: center;
   color: var(--text-muted);

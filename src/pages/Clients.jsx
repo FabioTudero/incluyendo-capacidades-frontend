@@ -1,21 +1,29 @@
 import { useNavigate } from "react-router";
 import { useMemo, useState } from 'react'
 import { CLIENTS } from '../data/clients'
+import AddClientModal from '../components/AddClientModal'
 import './Clients.css'
 
 export default function Clients() {
   const navigate = useNavigate()
+  const [clients, setClients] = useState(CLIENTS)
   const [query, setQuery] = useState('')
+  const [showAddModal, setShowAddModal] = useState(false)
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    if (!q) return CLIENTS
-    return CLIENTS.filter(
+    if (!q) return clients
+    return clients.filter(
       (c) =>
         c.name.toLowerCase().includes(q) ||
         c.email.toLowerCase().includes(q),
     )
-  }, [query])
+  }, [clients, query])
+
+  function handleAddClient(client) {
+    setClients((prev) => [...prev, { id: Math.max(0, ...prev.map((c) => c.id)) + 1, ...client }])
+    setShowAddModal(false)
+  }
 
   return (
     <div className="clients-page">
@@ -27,11 +35,15 @@ export default function Clients() {
             aparecerán al registrar trabajos.
           </p>
         </div>
-        <button className="btn-primary" type="button">
+        <button className="btn-primary" type="button" onClick={() => setShowAddModal(true)}>
           <PlusIcon />
           Nuevo cliente
         </button>
       </div>
+
+      {showAddModal && (
+        <AddClientModal onClose={() => setShowAddModal(false)} onSubmit={handleAddClient} />
+      )}
 
       <div className="clients-card">
         <div className="search-bar">
@@ -77,7 +89,7 @@ export default function Clients() {
         </table>
 
         <div className="table-footer">
-          {filtered.length} cliente{filtered.length === 1 ? '' : 's'} de {CLIENTS.length}
+          {filtered.length} cliente{filtered.length === 1 ? '' : 's'} de {clients.length}
         </div>
       </div>
     </div>
