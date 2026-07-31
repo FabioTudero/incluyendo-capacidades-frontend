@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Modal from './Modal'
 import '../pages/Clients.css'
+import api from '../lib/api';
 
 export default function AddClientModal({ onClose, onSubmit }) {
   const [name, setName] = useState('')
@@ -13,6 +14,21 @@ export default function AddClientModal({ onClose, onSubmit }) {
       setError('Nombre y correo electrónico son obligatorios.')
       return
     }
+
+    api('/clients', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: name.trim(), email: email.trim() }),
+    })
+      .then((data) => {
+        onSubmit(data)
+      })
+      .catch((err) => {
+        setError('Error al guardar el cliente. Inténtalo de nuevo.')
+        console.error(err)
+      })
     onSubmit({ name: name.trim(), email: email.trim() })
   }
 

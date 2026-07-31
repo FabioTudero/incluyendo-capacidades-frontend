@@ -1,12 +1,33 @@
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import { CLIENTS } from '../data/clients'
+import api from '../lib/api'
 import './Clients.css'
 import './Client.css'
 
 export default function Client() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const client = CLIENTS.find((c) => String(c.id) === id)
+  const [client, setClient] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setLoading(true)
+    api(`/clients/${id}`).then((data) => {
+      setClient(data)
+      setLoading(false)
+    })
+  }, [id])
+
+  if (loading) {
+    return (
+      <div className="client-page">
+        <button className="back-link" type="button" onClick={() => navigate('/clientes')}>
+          <BackIcon /> Volver a clientes
+        </button>
+        <p className="not-found">Cargando cliente…</p>
+      </div>
+    )
+  }
 
   if (!client) {
     return (
