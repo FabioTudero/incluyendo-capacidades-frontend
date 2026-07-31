@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router'
 import AppLayout from './layout/AppLayout'
 import Clients from './pages/Clients'
+import Client from './pages/Client'
 import PlaceholderPage from './pages/PlaceholderPage'
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Route element={<AppLayout />}>
         <Route index element={<Navigate to="/clientes" replace />} />
         <Route path="clientes" element={<Clients />} />
+        <Route path="clientes/:id" element={<Client />} />
         <Route
           path="trabajos"
           element={<PlaceholderPage title="Trabajos" description="Próximamente." />}

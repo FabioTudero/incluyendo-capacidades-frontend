@@ -1,26 +1,7 @@
 import { useNavigate } from "react-router";
 import { useMemo, useState } from 'react'
+import { CLIENTS } from '../data/clients'
 import './Clients.css'
-
-const CLIENTS = [
-  {
-    id: 1,
-    name: 'Limpiezas Norte S.L.',
-    email: 'info@limpiezasnorte.com'
-  },
-  {
-    id: 2,
-    name: 'Ayuntamiento de Villanueva',
-    email: 'info@villanueva.es',
-  },
-  {
-    id: 3,
-    name: 'Distribuciones Ebro S.A.',
-    email: 'info@ebro.com',
-  },
-]
-
-const currency = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
 export default function Clients() {
   const navigate = useNavigate()
@@ -57,7 +38,7 @@ export default function Clients() {
           <SearchIcon className="search-icon" />
           <input
             type="text"
-            placeholder="Buscar por nombre, CIF o población"
+            placeholder="Buscar por nombre"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
