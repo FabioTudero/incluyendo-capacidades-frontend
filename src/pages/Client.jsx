@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import api from '../lib/api'
-import './Clients.css'
-import './Client.css'
 
 export default function Client() {
   const { id } = useParams()
@@ -20,55 +18,57 @@ export default function Client() {
 
   if (loading) {
     return (
-      <div className="client-page">
-        <button className="back-link" type="button" onClick={() => navigate('/clientes')}>
-          <BackIcon /> Volver a clientes
+      <div className="max-w-225">
+        <button className="inline-flex items-center gap-1.5 border-none bg-transparent text-text-muted text-[13px] font-semibold p-0 mb-4.5 cursor-pointer hover:text-accent" type="button" onClick={() => navigate('/clientes')}>
+          <BackIcon className="w-3.5 h-3.5" /> Volver a clientes
         </button>
-        <p className="not-found">Cargando cliente…</p>
+        <p className="text-text-muted">Cargando cliente…</p>
       </div>
     )
   }
 
   if (!client) {
     return (
-      <div className="client-page">
-        <button className="back-link" type="button" onClick={() => navigate('/clientes')}>
-          <BackIcon /> Volver a clientes
+      <div className="max-w-225">
+        <button className="inline-flex items-center gap-1.5 border-none bg-transparent text-text-muted text-[13px] font-semibold p-0 mb-4.5 cursor-pointer hover:text-accent" type="button" onClick={() => navigate('/clientes')}>
+          <BackIcon className="w-3.5 h-3.5" /> Volver a clientes
         </button>
-        <p className="not-found">No se ha encontrado ningún cliente con ese identificador.</p>
+        <p className="text-text-muted">No se ha encontrado ningún cliente con ese identificador.</p>
       </div>
     )
   }
 
   return (
-    <div className="client-page">
-      <button className="back-link" type="button" onClick={() => navigate('/clientes')}>
-        <BackIcon /> Volver a clientes
+    <div className="max-w-225">
+      <button className="inline-flex items-center gap-1.5 border-none bg-transparent text-text-muted text-[13px] font-semibold p-0 mb-4.5 cursor-pointer hover:text-accent" type="button" onClick={() => navigate('/clientes')}>
+        <BackIcon className="w-3.5 h-3.5" /> Volver a clientes
       </button>
 
-      <div className="page-header">
-        <div className="client-heading">
-          <div className="client-avatar">{initials(client.name)}</div>
+      <div className="flex items-start justify-between gap-6 mb-5.5 max-[600px]:flex-col max-[600px]:items-stretch max-[600px]:gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-xl bg-accent-gradient text-white font-bold text-base flex items-center justify-center shrink-0">
+            {initials(client.name)}
+          </div>
           <div>
-            <h1>{client.name}</h1>
-            <p className="page-subtitle">{client.email}</p>
+            <h1 className="text-[22px]">{client.name}</h1>
+            <p className="text-text-muted mt-1.5 text-sm leading-normal">{client.email}</p>
           </div>
         </div>
-        <button className="btn-outline" type="button">
-          <EditIcon /> Editar cliente
+        <button className="inline-flex items-center gap-1.5 text-[13px] font-semibold py-1.75 px-3 rounded-lg cursor-pointer border-[1.5px] border-accent bg-surface text-accent whitespace-nowrap hover:bg-accent hover:text-white" type="button">
+          <EditIcon className="w-3.5 h-3.5" /> Editar cliente
         </button>
       </div>
 
-      <div className="client-card">
-        <h2>Datos de contacto</h2>
-        <dl className="client-details">
+      <div className="bg-surface border border-border rounded-[14px] shadow-card p-5.5">
+        <h2 className="text-[15px] mb-3.5">Datos de contacto</h2>
+        <dl className="grid grid-cols-2 gap-4.5 m-0 max-[600px]:grid-cols-1">
           <div>
-            <dt>Nombre / razón social</dt>
-            <dd>{client.name}</dd>
+            <dt className="text-xs font-semibold uppercase tracking-[0.4px] text-text-muted mb-1">Nombre / razón social</dt>
+            <dd className="m-0 text-sm text-text-h">{client.name}</dd>
           </div>
           <div>
-            <dt>Correo electrónico</dt>
-            <dd>{client.email}</dd>
+            <dt className="text-xs font-semibold uppercase tracking-[0.4px] text-text-muted mb-1">Correo electrónico</dt>
+            <dd className="m-0 text-sm text-text-h">{client.email}</dd>
           </div>
         </dl>
       </div>

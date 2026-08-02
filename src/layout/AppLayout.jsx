@@ -1,5 +1,4 @@
 import { NavLink, Outlet } from 'react-router'
-import './AppLayout.css'
 
 const NAV_ITEMS = [
   { to: '/', label: 'Inicio', icon: HomeIcon },
@@ -10,25 +9,32 @@ const NAV_ITEMS = [
 
 export default function AppLayout() {
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="sidebar-brand">
-          <div>
-            <div className="brand-name">INCLUYENDO CAPACIDADES</div>
+    <div className="flex min-h-svh bg-bg">
+      <aside className="w-60 max-[900px]:w-19 shrink-0 bg-accent-gradient text-white flex flex-col py-5 px-3.5">
+        <div className="flex items-center gap-2.5 pt-1 px-2 pb-5">
+          <div className="font-semibold text-sm leading-[1.3] max-[900px]:hidden">
+            INCLUYENDO CAPACIDADES
           </div>
         </div>
 
-        <nav className="sidebar-nav">
-          <ul>
+        <nav className="flex-1">
+          <ul className="list-none m-0 p-0 flex flex-col gap-0.5">
             {NAV_ITEMS.map(({ to, label, icon: Icon, badge }) => (
               <li key={to}>
                 <NavLink
                   to={to}
-                  className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}
+                  className={({ isActive }) =>
+                    'flex items-center gap-2.5 py-2.25 px-3 rounded-lg text-white/90 no-underline text-sm font-medium transition-colors duration-150 hover:bg-white/12 max-[900px]:justify-center' +
+                    (isActive ? ' bg-white/24 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.3)]' : '')
+                  }
                 >
-                  <Icon className="nav-icon" />
-                  <span>{label}</span>
-                  {badge != null && <span className="nav-badge">{badge}</span>}
+                  <Icon className="w-4.5 h-4.5 shrink-0" />
+                  <span className="max-[900px]:hidden">{label}</span>
+                  {badge != null && (
+                    <span className="ml-auto bg-white/90 text-accent-strong text-[11px] font-bold rounded-full px-1.75 py-px max-[900px]:hidden">
+                      {badge}
+                    </span>
+                  )}
                 </NavLink>
               </li>
             ))}
@@ -36,14 +42,18 @@ export default function AppLayout() {
         </nav>
       </aside>
 
-      <div className="app-main">
-        <header className="topbar">
-          <button className="collapse-btn" aria-label="Contraer menú" type="button">
-            <MenuIcon />
+      <div className="flex-1 min-w-0 flex flex-col">
+        <header className="flex items-center gap-4 py-3.5 px-7 bg-surface border-b border-border">
+          <button
+            className="w-8.5 h-8.5 rounded-lg border border-border bg-transparent text-text-muted flex items-center justify-center cursor-pointer hover:bg-accent-bg hover:text-accent hover:border-accent-border"
+            aria-label="Contraer menú"
+            type="button"
+          >
+            <MenuIcon className="w-4.5 h-4.5" />
           </button>
         </header>
 
-        <main className="page-content">
+        <main className="flex-1 py-7 px-8 max-[720px]:px-4 max-[720px]:py-5">
           <Outlet />
         </main>
       </div>

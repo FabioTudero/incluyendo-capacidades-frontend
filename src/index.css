@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --text: #4b4458;
   --text-h: #1e1b2e;
@@ -11,7 +13,6 @@
   --accent-strong: #1d4ed8;
   --accent-bg: rgba(37, 99, 235, 0.1);
   --accent-border: rgba(37, 99, 235, 0.4);
-  --accent-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
 
   --success: #16a34a;
   --success-bg: rgba(22, 163, 74, 0.12);
@@ -20,23 +21,9 @@
   --neutral-bg: #eef3fb;
   --neutral-text: #5b6b85;
 
-  --shadow-sm: rgba(76, 29, 149, 0.08) 0 1px 2px;
-  --shadow:
+  --shadow-card: rgba(76, 29, 149, 0.08) 0 1px 2px;
+  --shadow-panel:
     rgba(76, 29, 149, 0.12) 0 10px 25px -8px, rgba(76, 29, 149, 0.06) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 15px/145% var(--sans);
-  letter-spacing: 0.1px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -53,7 +40,6 @@
     --accent-strong: #60a5fa;
     --accent-bg: rgba(59, 130, 246, 0.18);
     --accent-border: rgba(59, 130, 246, 0.5);
-    --accent-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
 
     --success: #4ade80;
     --success-bg: rgba(74, 222, 128, 0.15);
@@ -62,37 +48,82 @@
     --neutral-bg: #212a3c;
     --neutral-text: #a8b7cf;
 
-    --shadow-sm: rgba(0, 0, 0, 0.3) 0 1px 2px;
-    --shadow:
+    --shadow-card: rgba(0, 0, 0, 0.3) 0 1px 2px;
+    --shadow-panel:
       rgba(0, 0, 0, 0.4) 0 10px 25px -8px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
 }
 
-* {
-  box-sizing: border-box;
+@theme {
+  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, Consolas, monospace;
+
+  /* Colors are indirected through the plain custom properties above so
+     they keep swapping automatically with prefers-color-scheme. */
+  --color-text: var(--text);
+  --color-text-h: var(--text-h);
+  --color-text-muted: var(--text-muted);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-bg: var(--accent-bg);
+  --color-accent-border: var(--accent-border);
+
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-neutral-bg: var(--neutral-bg);
+  --color-neutral-text: var(--neutral-text);
 }
 
-body {
-  margin: 0;
+@utility bg-accent-gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
 }
 
-#root {
-  min-height: 100svh;
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
 }
 
-h1,
-h2,
-h3 {
-  font-family: var(--heading);
-  font-weight: 600;
-  color: var(--text-h);
-  margin: 0;
+@utility shadow-panel {
+  box-shadow: var(--shadow-panel);
 }
 
-p {
-  margin: 0;
-}
+@layer base {
+  html {
+    color-scheme: light dark;
+    font: 15px/145% var(--font-sans);
+    letter-spacing: 0.1px;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-button {
-  font: inherit;
+  body {
+    @apply m-0 text-text bg-bg;
+  }
+
+  #root {
+    min-height: 100svh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold text-text-h m-0;
+    font-family: var(--font-sans);
+  }
+
+  p {
+    @apply m-0;
+  }
+
+  button {
+    font: inherit;
+  }
 }
