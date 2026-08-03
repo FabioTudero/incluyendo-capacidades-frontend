@@ -37,7 +37,7 @@ export default function Service() {
 
   if (loading) {
     return (
-      <div className="max-w-225">
+      <div className="w-full">
         <button className="inline-flex items-center gap-1.5 border-none bg-transparent text-text-muted text-[13px] font-semibold p-0 mb-4.5 cursor-pointer hover:text-accent" type="button" onClick={() => navigate('/servicios')}>
           <BackIcon className="w-3.5 h-3.5" /> Volver a servicios
         </button>
@@ -48,7 +48,7 @@ export default function Service() {
 
   if (!service) {
     return (
-      <div className="max-w-225">
+      <div className="w-full">
         <button className="inline-flex items-center gap-1.5 border-none bg-transparent text-text-muted text-[13px] font-semibold p-0 mb-4.5 cursor-pointer hover:text-accent" type="button" onClick={() => navigate('/servicios')}>
           <BackIcon className="w-3.5 h-3.5" /> Volver a servicios
         </button>
@@ -58,7 +58,7 @@ export default function Service() {
   }
 
   return (
-    <div className="max-w-225">
+    <div className="w-full">
       <button className="inline-flex items-center gap-1.5 border-none bg-transparent text-text-muted text-[13px] font-semibold p-0 mb-4.5 cursor-pointer hover:text-accent" type="button" onClick={() => navigate('/servicios')}>
         <BackIcon className="w-3.5 h-3.5" /> Volver a servicios
       </button>

@@ -18,7 +18,7 @@ export default function Client() {
 
   if (loading) {
     return (
-      <div className="max-w-225">
+      <div className="w-full">
         <button className="inline-flex items-center gap-1.5 border-none bg-transparent text-text-muted text-[13px] font-semibold p-0 mb-4.5 cursor-pointer hover:text-accent" type="button" onClick={() => navigate('/clientes')}>
           <BackIcon className="w-3.5 h-3.5" /> Volver a clientes
         </button>
@@ -29,7 +29,7 @@ export default function Client() {
 
   if (!client) {
     return (
-      <div className="max-w-225">
+      <div className="w-full">
         <button className="inline-flex items-center gap-1.5 border-none bg-transparent text-text-muted text-[13px] font-semibold p-0 mb-4.5 cursor-pointer hover:text-accent" type="button" onClick={() => navigate('/clientes')}>
           <BackIcon className="w-3.5 h-3.5" /> Volver a clientes
         </button>
@@ -39,7 +39,7 @@ export default function Client() {
   }
 
   return (
-    <div className="max-w-225">
+    <div className="w-full">
       <button className="inline-flex items-center gap-1.5 border-none bg-transparent text-text-muted text-[13px] font-semibold p-0 mb-4.5 cursor-pointer hover:text-accent" type="button" onClick={() => navigate('/clientes')}>
         <BackIcon className="w-3.5 h-3.5" /> Volver a clientes
       </button>

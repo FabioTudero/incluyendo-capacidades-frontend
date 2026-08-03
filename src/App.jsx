@@ -5,6 +5,9 @@ import Client from './pages/Client'
 import PlaceholderPage from './pages/PlaceholderPage'
 import Services from './pages/Services'
 import Service from './pages/Service'
+import Invoices from './pages/Invoices'
+import Invoice from './pages/Invoice'
+import NewInvoice from './pages/NewInvoice'
 
 function App() {
   return (
@@ -15,14 +18,9 @@ function App() {
         <Route path="clientes/:id" element={<Client />} />
         <Route path="servicios" element={<Services />} />
         <Route path="servicios/:id" element={<Service />} />
-        <Route
-          path="facturas"
-          element={<PlaceholderPage title="Facturas" description="Próximamente." />}
-        />
-        <Route
-          path="ajustes"
-          element={<PlaceholderPage title="Ajustes" description="Próximamente." />}
-        />
+        <Route path="facturas" element={<Invoices />} />
+        <Route path="facturas/nueva" element={<NewInvoice />} />
+        <Route path="facturas/:id" element={<Invoice />} />
       </Route>
     </Routes>
   )

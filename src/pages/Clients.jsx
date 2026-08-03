@@ -37,7 +37,7 @@ export default function Clients() {
     }, [])
 
     return (
-        <div className="max-w-275 w-full">
+        <div className="w-full">
             <div className="flex items-start justify-between gap-6 mb-5.5 max-[720px]:flex-col max-[720px]:items-stretch max-[720px]:gap-4">
                 <div>
                     <h1 className="text-[26px] max-[720px]:text-[22px]">Clientes</h1>
