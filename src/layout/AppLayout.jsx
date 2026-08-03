@@ -10,7 +10,7 @@ const NAV_ITEMS = [
 export default function AppLayout() {
   return (
     <div className="flex min-h-svh bg-bg">
-      <aside className="w-60 max-[900px]:w-19 shrink-0 bg-accent-gradient text-white flex flex-col py-5 px-3.5">
+      <aside className="w-60 max-[900px]:w-19 shrink-0 bg-accent-gradient text-white flex flex-col py-5 px-3.5 print:hidden">
         <div className="flex items-center gap-2.5 pt-1 px-2 pb-5">
           <div className="font-semibold text-sm leading-[1.3] max-[900px]:hidden">
             INCLUYENDO CAPACIDADES
@@ -43,7 +43,7 @@ export default function AppLayout() {
       </aside>
 
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="flex items-center gap-4 py-3.5 px-7 bg-surface border-b border-border">
+        <header className="flex items-center gap-4 py-3.5 px-7 bg-surface border-b border-border print:hidden">
           <button
             className="w-8.5 h-8.5 rounded-lg border border-border bg-transparent text-text-muted flex items-center justify-center cursor-pointer hover:bg-accent-bg hover:text-accent hover:border-accent-border"
             aria-label="Contraer menú"
