@@ -3,6 +3,7 @@ import AppLayout from './layout/AppLayout'
 import Clients from './pages/Clients'
 import Client from './pages/Client'
 import PlaceholderPage from './pages/PlaceholderPage'
+import Services from './pages/Services'
 
 function App() {
   return (
@@ -11,10 +12,7 @@ function App() {
         <Route index element={<Navigate to="/clientes" replace />} />
         <Route path="clientes" element={<Clients />} />
         <Route path="clientes/:id" element={<Client />} />
-        <Route
-          path="trabajos"
-          element={<PlaceholderPage title="Trabajos" description="Próximamente." />}
-        />
+        <Route path="servicios" element={<Services />} />
         <Route
           path="facturas"
           element={<PlaceholderPage title="Facturas" description="Próximamente." />}

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { useMemo, useState, useEffect } from 'react'
 import api from '../lib/api'
 import AddClientModal from '../components/AddClientModal'
+import { PlusIcon, SearchIcon } from '../components/Icons'
 
 const tdClass =
   'border-b border-border py-3.5 px-3 text-text align-middle ' +
@@ -40,10 +41,6 @@ export default function Clients() {
             <div className="flex items-start justify-between gap-6 mb-5.5 max-[720px]:flex-col max-[720px]:items-stretch max-[720px]:gap-4">
                 <div>
                     <h1 className="text-[26px] max-[720px]:text-[22px]">Clientes</h1>
-                    <p className="text-text-muted max-w-160 mt-1.5 text-sm leading-normal max-[720px]:max-w-none">
-                        Datos fiscales y tarifas de cada cliente. Los conceptos facturables definidos aquí son los que
-                        aparecerán al registrar trabajos.
-                    </p>
                 </div>
                 <button
                     className="inline-flex items-center gap-2 border-none bg-accent-gradient text-white font-semibold text-sm py-2.5 px-4.5 rounded-[9px] cursor-pointer shadow-[0_6px_16px_-6px_rgba(37,99,235,0.55)] whitespace-nowrap transition-[transform,box-shadow] duration-150 hover:-translate-y-px hover:shadow-[0_10px_20px_-6px_rgba(37,99,235,0.6)] max-[720px]:justify-center"
@@ -108,49 +105,5 @@ export default function Clients() {
                 </div>
             </div>
         </div>
-    )
-}
-
-function PlusIcon(props) {
-    return (
-        <svg viewBox="0 0 24 24" fill="none" {...props}>
-            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-    )
-}
-
-function SearchIcon(props) {
-    return (
-        <svg viewBox="0 0 24 24" fill="none" {...props}>
-            <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.8" />
-            <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-        </svg>
-    )
-}
-
-function EyeIcon(props) {
-    return (
-        <svg viewBox="0 0 24 24" fill="none" {...props}>
-            <path
-                d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinejoin="round"
-            />
-            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
-        </svg>
-    )
-}
-
-function EditIcon(props) {
-    return (
-        <svg viewBox="0 0 24 24" fill="none" {...props}>
-            <path
-                d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinejoin="round"
-            />
-        </svg>
     )
 }
