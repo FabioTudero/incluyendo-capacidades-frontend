@@ -38,7 +38,7 @@ export default function NewInvoice() {
   }, [clients, query])
 
   const availableServices = clientServices.filter((s) => !lines.some((l) => l.service_id === s.id))
-  const total = lines.reduce((sum, l) => sum + Number(l.price), 0)
+  const total = lines.reduce((sum, l) => sum + Number(l.hours) * Number(l.price), 0)
   const totalHours = lines.reduce((sum, l) => sum + Number(l.hours), 0)
 
   function selectClient(client) {
@@ -216,7 +216,8 @@ export default function NewInvoice() {
                   <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.4px] text-text-muted">
                     <span className="flex-1">Servicio</span>
                     <span className="w-24">Horas</span>
-                    <span className="w-28">Precio</span>
+                    <span className="w-28">Precio/hora</span>
+                    <span className="w-24 text-right">Subtotal</span>
                     <span className="w-7.5" />
                   </div>
                   {lines.map((line) => (
@@ -239,9 +240,12 @@ export default function NewInvoice() {
                         className={`${inputClass} w-28`}
                         value={line.price}
                         onChange={(e) => updateLinePrice(line.service_id, e.target.value)}
-                        aria-label={`Precio de ${line.name}`}
-                        title="Precio"
+                        aria-label={`Precio por hora de ${line.name}`}
+                        title="Precio/hora"
                       />
+                      <span className="w-24 text-right text-sm text-text-h">
+                        {formatPrice(Number(line.hours || 0) * Number(line.price || 0))}
+                      </span>
                       <button
                         className="inline-flex items-center justify-center w-7.5 h-7.5 rounded-lg cursor-pointer border-none bg-transparent text-text-muted hover:bg-danger-bg hover:text-danger"
                         type="button"

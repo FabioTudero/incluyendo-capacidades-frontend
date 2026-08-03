@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import api from '../lib/api'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api'
+
 function formatPrice(price) {
   return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price)
 }
@@ -52,11 +54,19 @@ export default function Invoice() {
         <BackIcon className="w-3.5 h-3.5" /> Volver a facturas
       </button>
 
-      <div className="mb-5.5">
-        <h1 className="text-[22px]">Factura #{invoice.id}</h1>
-        <p className="text-text-muted mt-1.5 text-sm leading-normal">
-          {invoice.client.name} · {formatDate(invoice.date)}
-        </p>
+      <div className="flex items-start justify-between gap-6 mb-5.5 max-[600px]:flex-col max-[600px]:items-stretch max-[600px]:gap-4">
+        <div>
+          <h1 className="text-[22px]">Factura #{invoice.id}</h1>
+          <p className="text-text-muted mt-1.5 text-sm leading-normal">
+            {invoice.client.name} · {formatDate(invoice.date)}
+          </p>
+        </div>
+        <a
+          className="inline-flex items-center gap-1.5 text-[13px] font-semibold py-1.75 px-3 rounded-lg cursor-pointer border-[1.5px] border-danger bg-surface text-danger whitespace-nowrap no-underline hover:bg-danger hover:text-white"
+          href={`${API_BASE_URL}/invoices/${invoice.id}/pdf`}
+        >
+          <PdfIcon className="w-3.5 h-3.5" /> Descargar PDF
+        </a>
       </div>
 
       <div className="bg-surface border border-border rounded-[14px] shadow-card p-5.5">
@@ -88,7 +98,8 @@ export default function Invoice() {
             <tr>
               <th className="text-left text-xs font-semibold uppercase tracking-[0.4px] text-text-muted py-2.5 px-3 border-b border-border">Servicio</th>
               <th className="text-left text-xs font-semibold uppercase tracking-[0.4px] text-text-muted py-2.5 px-3 border-b border-border">Horas</th>
-              <th className="text-left text-xs font-semibold uppercase tracking-[0.4px] text-text-muted py-2.5 px-3 border-b border-border">Precio</th>
+              <th className="text-left text-xs font-semibold uppercase tracking-[0.4px] text-text-muted py-2.5 px-3 border-b border-border">Precio/hora</th>
+              <th className="text-left text-xs font-semibold uppercase tracking-[0.4px] text-text-muted py-2.5 px-3 border-b border-border">Subtotal</th>
             </tr>
           </thead>
           <tbody className="max-[560px]:block [&>tr:last-child>td]:border-b-0">
@@ -103,8 +114,11 @@ export default function Invoice() {
                 <td className="border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0" data-label="Horas">
                   <div className="text-text-muted">{line.hours}</div>
                 </td>
-                <td className="border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0" data-label="Precio">
+                <td className="border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0" data-label="Precio/hora">
                   <div className="text-text-muted">{formatPrice(line.price)}</div>
+                </td>
+                <td className="border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0" data-label="Subtotal">
+                  <div className="text-text-muted">{formatPrice(line.subtotal)}</div>
                 </td>
               </tr>
             ))}
@@ -123,6 +137,21 @@ function BackIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
       <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function PdfIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M7 3h7l4 4v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path d="M14 3v4h4" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M8.5 17v-4h1a1.5 1.5 0 0 1 0 3h-1M12.5 17v-4h1.2a1.6 1.6 0 0 1 0 4h-1.2ZM17.5 13v4M17.5 15h1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
