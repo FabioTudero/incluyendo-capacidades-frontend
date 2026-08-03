@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import api from '../lib/api'
+import ClientInvoicesTable from '../components/ClientInvoicesTable'
 
 export default function Client() {
   const { id } = useParams()
   const navigate = useNavigate()
   const [client, setClient] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [invoices, setInvoices] = useState([])
 
   useEffect(() => {
     setLoading(true)
@@ -14,6 +16,10 @@ export default function Client() {
       setClient(data)
       setLoading(false)
     })
+  }, [id])
+
+  useEffect(() => {
+    api(`/clients/${id}/invoices`).then(setInvoices)
   }, [id])
 
   if (loading) {
@@ -63,7 +69,7 @@ export default function Client() {
         <h2 className="text-[15px] mb-3.5">Datos de contacto</h2>
         <dl className="grid grid-cols-2 gap-4.5 m-0 max-[600px]:grid-cols-1">
           <div>
-            <dt className="text-xs font-semibold uppercase tracking-[0.4px] text-text-muted mb-1">Nombre / razón social</dt>
+            <dt className="text-xs font-semibold uppercase tracking-[0.4px] text-text-muted mb-1">Nombre</dt>
             <dd className="m-0 text-sm text-text-h">{client.name}</dd>
           </div>
           <div>
@@ -71,6 +77,11 @@ export default function Client() {
             <dd className="m-0 text-sm text-text-h">{client.email}</dd>
           </div>
         </dl>
+      </div>
+
+      <div className="bg-surface border border-border rounded-[14px] shadow-card p-5.5 mt-4.5">
+        <h2 className="text-[15px] mb-3.5">Facturas</h2>
+        <ClientInvoicesTable invoices={invoices} />
       </div>
     </div>
   )
