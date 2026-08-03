@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import api from '../lib/api'
 import ClientInvoicesTable from '../components/ClientInvoicesTable'
+import ClientServicePricesTable from '../components/ClientServicePricesTable'
+import AddServicePriceModal from '../components/AddServicePriceModal'
+import { PlusIcon } from '../components/Icons'
 
 export default function Client() {
   const { id } = useParams()
@@ -9,6 +12,7 @@ export default function Client() {
   const [client, setClient] = useState(null)
   const [loading, setLoading] = useState(true)
   const [invoices, setInvoices] = useState([])
+  const [showAddPriceModal, setShowAddPriceModal] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -77,6 +81,36 @@ export default function Client() {
             <dd className="m-0 text-sm text-text-h">{client.email}</dd>
           </div>
         </dl>
+      </div>
+
+      <div className="bg-surface border border-border rounded-[14px] shadow-card p-5.5 mt-4.5">
+        <div className="flex items-center justify-between gap-4 mb-3.5">
+          <h2 className="text-[15px]">Precios por servicio</h2>
+          <button
+            className="inline-flex items-center gap-1.5 text-[13px] font-semibold py-1.75 px-3 rounded-lg cursor-pointer border-[1.5px] border-accent bg-surface text-accent whitespace-nowrap hover:bg-accent hover:text-white"
+            type="button"
+            onClick={() => setShowAddPriceModal(true)}
+          >
+            <PlusIcon className="w-3.5 h-3.5" /> Añadir precio
+          </button>
+        </div>
+
+        {showAddPriceModal && (
+          <AddServicePriceModal
+            clientId={client.id}
+            excludeServiceIds={(client.services || []).map((s) => s.id)}
+            onClose={() => setShowAddPriceModal(false)}
+            onSubmit={(service) => {
+              setClient((prev) => ({
+                ...prev,
+                services: [...(prev.services || []).filter((s) => s.id !== service.id), service],
+              }))
+              setShowAddPriceModal(false)
+            }}
+          />
+        )}
+
+        <ClientServicePricesTable services={client.services || []} />
       </div>
 
       <div className="bg-surface border border-border rounded-[14px] shadow-card p-5.5 mt-4.5">
