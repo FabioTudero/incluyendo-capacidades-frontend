@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import { useEffect, useMemo, useState } from 'react'
 import api from '../lib/api'
 import AddServiceModal from '../components/AddServiceModal'
@@ -11,6 +12,7 @@ const tdClass =
   'max-[560px]:before:text-text-muted max-[560px]:before:mb-0.5'
 
 export default function Services() {
+    const navigate = useNavigate()
     const [services, setServices] = useState([])
     const [query, setQuery] = useState('')
     const [showAddModal, setShowAddModal] = useState(false)
@@ -72,7 +74,8 @@ export default function Services() {
                         {filtered.map((service) => (
                             <tr
                                 key={service.id}
-                                className="max-[560px]:block max-[560px]:w-full max-[560px]:border-b max-[560px]:border-border max-[560px]:py-2.5 max-[560px]:px-1 max-[560px]:last:border-b-0"
+                                onClick={() => navigate(`/servicios/${service.id}`)}
+                                className="cursor-pointer hover:bg-accent-bg max-[560px]:block max-[560px]:w-full max-[560px]:border-b max-[560px]:border-border max-[560px]:py-2.5 max-[560px]:px-1 max-[560px]:last:border-b-0"
                             >
                                 <td className={tdClass} data-label="Nombre">
                                     <div className="font-semibold text-text-h">{service.name}</div>

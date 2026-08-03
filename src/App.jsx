@@ -4,6 +4,7 @@ import Clients from './pages/Clients'
 import Client from './pages/Client'
 import PlaceholderPage from './pages/PlaceholderPage'
 import Services from './pages/Services'
+import Service from './pages/Service'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="clientes" element={<Clients />} />
         <Route path="clientes/:id" element={<Client />} />
         <Route path="servicios" element={<Services />} />
+        <Route path="servicios/:id" element={<Service />} />
         <Route
           path="facturas"
           element={<PlaceholderPage title="Facturas" description="Próximamente." />}
