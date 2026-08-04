@@ -1,4 +1,5 @@
-import { Routes, Route, Navigate } from 'react-router'
+import { Routes, Route } from 'react-router'
+import Home from './pages/Home'
 import AppLayout from './layout/AppLayout'
 import Clients from './pages/Clients'
 import Client from './pages/Client'
@@ -13,7 +14,7 @@ function App() {
   return (
     <Routes>
       <Route element={<AppLayout />}>
-        <Route index element={<Navigate to="/clientes" replace />} />
+        <Route index element={<Home />} />
         <Route path="clientes" element={<Clients />} />
         <Route path="clientes/:id" element={<Client />} />
         <Route path="servicios" element={<Services />} />

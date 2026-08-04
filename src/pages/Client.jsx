@@ -16,14 +16,14 @@ export default function Client() {
 
   useEffect(() => {
     setLoading(true)
-    api(`/clients/${id}`).then((data) => {
-      setClient(data)
-      setLoading(false)
-    })
+    api(`/clients/${id}`)
+      .then(setClient)
+      .catch(() => setClient(null))
+      .finally(() => setLoading(false))
   }, [id])
 
   useEffect(() => {
-    api(`/clients/${id}/invoices`).then(setInvoices)
+    api(`/clients/${id}/invoices`).then(setInvoices).catch(() => setInvoices([]))
   }, [id])
 
   if (loading) {

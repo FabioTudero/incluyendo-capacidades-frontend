@@ -17,21 +17,23 @@ export default function AddClientModal({ onClose, onSubmit }) {
       return
     }
 
+    setError('')
+
     api('/clients', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({ name: name.trim(), email: email.trim() }),
     })
       .then((data) => {
         onSubmit(data)
       })
       .catch((err) => {
-        setError('Error al guardar el cliente. Inténtalo de nuevo.')
+        if (err.status === 422 && err.data?.errors?.email) {
+          setError('Ese correo electrónico ya está registrado.')
+        } else {
+          setError('Error al guardar el cliente. Inténtalo de nuevo.')
+        }
         console.error(err)
       })
-    onSubmit({ name: name.trim(), email: email.trim() })
   }
 
   return (
