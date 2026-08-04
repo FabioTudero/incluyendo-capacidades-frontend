@@ -45,7 +45,7 @@ export default function AppLayout() {
       <div className="flex-1 min-w-0 flex flex-col">
         <header className="flex items-center gap-4 py-3.5 px-7 bg-surface border-b border-border">
           <button
-            className="w-8.5 h-8.5 rounded-lg border border-border bg-transparent text-text-muted flex items-center justify-center cursor-pointer hover:bg-accent-bg hover:text-accent hover:border-accent-border"
+            className="hidden max-[900px]:flex w-8.5 h-8.5 rounded-lg border border-border bg-transparent text-text-muted items-center justify-center cursor-pointer hover:bg-accent-bg hover:text-accent hover:border-accent-border"
             aria-label="Contraer menú"
             type="button"
           >
