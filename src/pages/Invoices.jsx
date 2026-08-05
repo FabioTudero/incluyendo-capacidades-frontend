@@ -3,6 +3,9 @@ import { useEffect, useMemo, useState } from 'react'
 import api from '../lib/api'
 import { PlusIcon, SearchIcon } from '../components/Icons'
 
+const selectClass =
+  'py-2.5 px-3 rounded-[9px] border border-border bg-bg text-sm text-text-h focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-bg)]'
+
 const tdClass =
   'border-b border-border py-3.5 px-3 text-text align-middle ' +
   'max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0 ' +
@@ -21,16 +24,30 @@ function formatDate(date) {
 export default function Invoices() {
   const navigate = useNavigate()
   const [invoices, setInvoices] = useState([])
+  const [services, setServices] = useState([])
   const [query, setQuery] = useState('')
+  const [clientFilter, setClientFilter] = useState('')
+  const [serviceFilter, setServiceFilter] = useState('')
+
+  const clientOptions = useMemo(() => {
+    const map = new Map()
+    invoices.forEach((i) => map.set(i.client.id, i.client.name))
+    return Array.from(map, ([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name))
+  }, [invoices])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    if (!q) return invoices
-    return invoices.filter((i) => i.client.name.toLowerCase().includes(q))
-  }, [invoices, query])
+    return invoices.filter((i) => {
+      if (q && !i.client.name.toLowerCase().includes(q)) return false
+      if (clientFilter && String(i.client.id) !== clientFilter) return false
+      if (serviceFilter && !i.lines.some((l) => String(l.service_id) === serviceFilter)) return false
+      return true
+    })
+  }, [invoices, query, clientFilter, serviceFilter])
 
   useEffect(() => {
     api('/invoices').then(setInvoices)
+    api('/services').then(setServices)
   }, [])
 
   return (
@@ -50,15 +67,43 @@ export default function Invoices() {
       </div>
 
       <div className="bg-surface border border-border rounded-[14px] shadow-card p-4.5 max-[720px]:p-3.5 max-[720px]:rounded-xl">
-        <div className="relative mb-4">
-          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-          <input
-            type="text"
-            className="w-full py-2.5 pr-3.5 pl-9.5 rounded-[9px] border border-border bg-bg text-sm text-text-h focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-bg)]"
-            placeholder="Buscar por cliente"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+        <div className="flex items-center gap-3 mb-4 max-[720px]:flex-col max-[720px]:items-stretch">
+          <div className="relative flex-1">
+            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+            <input
+              type="text"
+              className="w-full py-2.5 pr-3.5 pl-9.5 rounded-[9px] border border-border bg-bg text-sm text-text-h focus:outline-none focus:border-accent focus:shadow-[0_0_0_3px_var(--color-accent-bg)]"
+              placeholder="Buscar por cliente"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+          <select
+            className={`${selectClass} max-[720px]:w-full`}
+            value={clientFilter}
+            onChange={(e) => setClientFilter(e.target.value)}
+            aria-label="Filtrar por cliente"
+          >
+            <option value="">Todos los clientes</option>
+            {clientOptions.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+          <select
+            className={`${selectClass} max-[720px]:w-full`}
+            value={serviceFilter}
+            onChange={(e) => setServiceFilter(e.target.value)}
+            aria-label="Filtrar por servicio"
+          >
+            <option value="">Todos los servicios</option>
+            {services.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <table className="w-full border-collapse text-sm max-[560px]:block">
