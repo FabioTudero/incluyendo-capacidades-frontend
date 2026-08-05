@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { SearchIcon, EditIcon } from './Icons'
+import { SearchIcon, EditIcon, TrashIcon } from './Icons'
 
 const tdClass =
   'border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0'
@@ -142,20 +142,6 @@ function ChevronRightIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
       <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function TrashIcon(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <path
-        d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-8 0 1 13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-13"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
     </svg>
   )
 }
