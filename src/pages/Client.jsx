@@ -4,6 +4,7 @@ import api from '../lib/api'
 import ClientInvoicesTable from '../components/ClientInvoicesTable'
 import ClientServicePricesTable from '../components/ClientServicePricesTable'
 import AddServicePriceModal from '../components/AddServicePriceModal'
+import EditClientServicePriceModal from '../components/EditClientServicePriceModal'
 import { PlusIcon } from '../components/Icons'
 
 export default function Client() {
@@ -13,6 +14,18 @@ export default function Client() {
   const [loading, setLoading] = useState(true)
   const [invoices, setInvoices] = useState([])
   const [showAddPriceModal, setShowAddPriceModal] = useState(false)
+  const [editingPriceService, setEditingPriceService] = useState(null)
+
+  function handleDeletePrice(service) {
+    if (!window.confirm(`¿Eliminar el precio de ${service.name} para este cliente?`)) return
+
+    api(`/services/${service.id}/clients/${client.id}`, { method: 'DELETE' }).then(() => {
+      setClient((prev) => ({
+        ...prev,
+        services: (prev.services || []).filter((s) => s.id !== service.id),
+      }))
+    })
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -110,7 +123,26 @@ export default function Client() {
           />
         )}
 
-        <ClientServicePricesTable services={client.services || []} />
+        {editingPriceService && (
+          <EditClientServicePriceModal
+            clientId={client.id}
+            service={editingPriceService}
+            onClose={() => setEditingPriceService(null)}
+            onSubmit={(service) => {
+              setClient((prev) => ({
+                ...prev,
+                services: (prev.services || []).map((s) => (s.id === service.id ? service : s)),
+              }))
+              setEditingPriceService(null)
+            }}
+          />
+        )}
+
+        <ClientServicePricesTable
+          services={client.services || []}
+          onEdit={setEditingPriceService}
+          onDelete={handleDeletePrice}
+        />
       </div>
 
       <div className="bg-surface border border-border rounded-[14px] shadow-card p-5.5 mt-4.5">
