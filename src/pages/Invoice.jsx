@@ -4,6 +4,13 @@ import api from '../lib/api'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api'
 
+const tdClass =
+  'border-b border-border py-3.5 px-3 text-text align-middle ' +
+  'max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0 ' +
+  'max-[560px]:before:content-[attr(data-label)] max-[560px]:before:block max-[560px]:before:text-[11px] ' +
+  'max-[560px]:before:font-semibold max-[560px]:before:uppercase max-[560px]:before:tracking-[0.4px] ' +
+  'max-[560px]:before:text-text-muted max-[560px]:before:mb-0.5'
+
 function formatPrice(price) {
   return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price)
 }
@@ -108,16 +115,16 @@ export default function Invoice() {
                 key={line.id}
                 className="max-[560px]:block max-[560px]:w-full max-[560px]:border-b max-[560px]:border-border max-[560px]:py-2.5 max-[560px]:px-1 max-[560px]:last:border-b-0"
               >
-                <td className="border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0" data-label="Servicio">
+                <td className={tdClass} data-label="Servicio">
                   <div className="font-semibold text-text-h">{line.service.name}</div>
                 </td>
-                <td className="border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0" data-label="Horas">
+                <td className={tdClass} data-label="Horas">
                   <div className="text-text-muted">{line.hours}</div>
                 </td>
-                <td className="border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0" data-label="Precio/hora">
+                <td className={tdClass} data-label="Precio/hora">
                   <div className="text-text-muted">{formatPrice(line.price)}</div>
                 </td>
-                <td className="border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0" data-label="Subtotal">
+                <td className={tdClass} data-label="Subtotal">
                   <div className="text-text-muted">{formatPrice(line.subtotal)}</div>
                 </td>
               </tr>

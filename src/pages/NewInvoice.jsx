@@ -181,8 +181,12 @@ export default function NewInvoice() {
                   Este cliente no tiene servicios con precio asignado. Añade precios en la ficha del servicio primero.
                 </p>
               ) : (
-                <div className="flex gap-2">
-                  <select className={`${inputClass} flex-1`} value={serviceToAdd} onChange={(e) => setServiceToAdd(e.target.value)}>
+                <div className="flex gap-2 max-[480px]:flex-wrap">
+                  <select
+                    className={`${inputClass} flex-1 max-[480px]:w-full`}
+                    value={serviceToAdd}
+                    onChange={(e) => setServiceToAdd(e.target.value)}
+                  >
                     <option value="">Selecciona un servicio</option>
                     {availableServices.map((s) => (
                       <option key={s.id} value={s.id}>
@@ -194,7 +198,7 @@ export default function NewInvoice() {
                     type="number"
                     min="0"
                     step="0.25"
-                    className={`${inputClass} w-24`}
+                    className={`${inputClass} w-24 max-[480px]:flex-1`}
                     value={hoursToAdd}
                     onChange={(e) => setHoursToAdd(e.target.value)}
                     aria-label="Horas"
@@ -213,7 +217,7 @@ export default function NewInvoice() {
 
               {lines.length > 0 && (
                 <div className="flex flex-col gap-2 mt-1">
-                  <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.4px] text-text-muted">
+                  <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.4px] text-text-muted max-[560px]:hidden">
                     <span className="flex-1">Servicio</span>
                     <span className="w-24">Horas</span>
                     <span className="w-28">Precio/hora</span>
@@ -221,33 +225,65 @@ export default function NewInvoice() {
                     <span className="w-7.5" />
                   </div>
                   {lines.map((line) => (
-                    <div key={line.service_id} className="flex items-center gap-2">
-                      <span className="flex-1 text-sm text-text-h">{line.name}</span>
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.25"
-                        className={`${inputClass} w-24`}
-                        value={line.hours}
-                        onChange={(e) => updateLineHours(line.service_id, e.target.value)}
-                        aria-label={`Horas de ${line.name}`}
-                        title="Horas"
-                      />
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        className={`${inputClass} w-28`}
-                        value={line.price}
-                        onChange={(e) => updateLinePrice(line.service_id, e.target.value)}
-                        aria-label={`Precio por hora de ${line.name}`}
-                        title="Precio/hora"
-                      />
-                      <span className="w-24 text-right text-sm text-text-h">
+                    <div
+                      key={line.service_id}
+                      className="flex items-center gap-2 max-[560px]:flex-col max-[560px]:items-stretch max-[560px]:gap-2.5 max-[560px]:border max-[560px]:border-border max-[560px]:rounded-[9px] max-[560px]:p-3"
+                    >
+                      <div className="hidden max-[560px]:flex items-center justify-between gap-2">
+                        <span className="text-sm font-semibold text-text-h">{line.name}</span>
+                        <button
+                          className="inline-flex items-center justify-center w-7.5 h-7.5 rounded-lg cursor-pointer border-none bg-transparent text-text-muted hover:bg-danger-bg hover:text-danger"
+                          type="button"
+                          onClick={() => removeLine(line.service_id)}
+                          aria-label={`Quitar ${line.name}`}
+                        >
+                          <RemoveIcon className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <span className="flex-1 text-sm text-text-h max-[560px]:hidden">{line.name}</span>
+                      <div className="flex gap-2 max-[560px]:w-full">
+                        <label className="min-[561px]:contents max-[560px]:flex-1">
+                          <span className="hidden max-[560px]:block text-[11px] font-semibold uppercase tracking-[0.4px] text-text-muted mb-1">
+                            Horas
+                          </span>
+                          <input
+                            type="number"
+                            min="0"
+                            step="0.25"
+                            className={`${inputClass} w-24 max-[560px]:w-full`}
+                            value={line.hours}
+                            onChange={(e) => updateLineHours(line.service_id, e.target.value)}
+                            aria-label={`Horas de ${line.name}`}
+                            title="Horas"
+                          />
+                        </label>
+                        <label className="min-[561px]:contents max-[560px]:flex-1">
+                          <span className="hidden max-[560px]:block text-[11px] font-semibold uppercase tracking-[0.4px] text-text-muted mb-1">
+                            Precio/hora
+                          </span>
+                          <input
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            className={`${inputClass} w-28 max-[560px]:w-full`}
+                            value={line.price}
+                            onChange={(e) => updateLinePrice(line.service_id, e.target.value)}
+                            aria-label={`Precio por hora de ${line.name}`}
+                            title="Precio/hora"
+                          />
+                        </label>
+                      </div>
+                      <span className="w-24 text-right text-sm text-text-h max-[560px]:hidden">
                         {formatPrice(Number(line.hours || 0) * Number(line.price || 0))}
                       </span>
+                      <div className="hidden max-[560px]:flex items-center justify-between text-sm text-text-h">
+                        <span className="text-text-muted">Subtotal</span>
+                        <span className="font-semibold">
+                          {formatPrice(Number(line.hours || 0) * Number(line.price || 0))}
+                        </span>
+                      </div>
                       <button
-                        className="inline-flex items-center justify-center w-7.5 h-7.5 rounded-lg cursor-pointer border-none bg-transparent text-text-muted hover:bg-danger-bg hover:text-danger"
+                        className="inline-flex items-center justify-center w-7.5 h-7.5 rounded-lg cursor-pointer border-none bg-transparent text-text-muted hover:bg-danger-bg hover:text-danger max-[560px]:hidden"
                         type="button"
                         onClick={() => removeLine(line.service_id)}
                         aria-label={`Quitar ${line.name}`}

@@ -2,7 +2,11 @@ import { useMemo, useState } from 'react'
 import { SearchIcon, EditIcon, TrashIcon } from './Icons'
 
 const tdClass =
-  'border-b border-border py-3.5 px-3 text-text align-middle max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0'
+  'border-b border-border py-3.5 px-3 text-text align-middle ' +
+  'max-[560px]:block max-[560px]:w-full max-[560px]:border-b-0 max-[560px]:py-0.75 max-[560px]:px-0 ' +
+  'max-[560px]:before:content-[attr(data-label)] max-[560px]:before:block max-[560px]:before:text-[11px] ' +
+  'max-[560px]:before:font-semibold max-[560px]:before:uppercase max-[560px]:before:tracking-[0.4px] ' +
+  'max-[560px]:before:text-text-muted max-[560px]:before:mb-0.5'
 
 const PAGE_SIZE = 5
 

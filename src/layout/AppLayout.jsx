@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router'
+import { useEffect, useState } from 'react'
 
 const NAV_ITEMS = [
   { to: '/', label: 'Inicio', icon: HomeIcon },
@@ -8,11 +9,38 @@ const NAV_ITEMS = [
 ]
 
 export default function AppLayout() {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+
+  useEffect(() => {
+    if (!mobileNavOpen) return
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setMobileNavOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [mobileNavOpen])
+
   return (
     <div className="flex min-h-svh bg-bg">
-      <aside className="w-60 max-[900px]:w-19 shrink-0 bg-accent-gradient text-white flex flex-col py-5 px-3.5">
+      {mobileNavOpen && (
+        <div
+          className="hidden max-[640px]:block fixed inset-0 bg-[rgba(15,23,42,0.45)] z-40"
+          onClick={() => setMobileNavOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside
+        className={
+          'shrink-0 bg-accent-gradient text-white flex flex-col py-5 px-3.5 ' +
+          'w-60 min-[641px]:max-[900px]:w-19 ' +
+          'max-[640px]:fixed max-[640px]:inset-y-0 max-[640px]:left-0 max-[640px]:z-50 max-[640px]:w-64 ' +
+          'max-[640px]:shadow-panel max-[640px]:transition-transform max-[640px]:duration-200 ' +
+          (mobileNavOpen ? '' : 'max-[640px]:-translate-x-full')
+        }
+      >
         <div className="flex items-center gap-2.5 pt-1 px-2 pb-5">
-          <div className="font-semibold text-sm leading-[1.3] max-[900px]:hidden">
+          <div className="font-semibold text-sm leading-[1.3] min-[641px]:max-[900px]:hidden">
             INCLUYENDO CAPACIDADES
           </div>
         </div>
@@ -23,15 +51,16 @@ export default function AppLayout() {
               <li key={to}>
                 <NavLink
                   to={to}
+                  onClick={() => setMobileNavOpen(false)}
                   className={({ isActive }) =>
-                    'flex items-center gap-2.5 py-2.25 px-3 rounded-lg text-white/90 no-underline text-sm font-medium transition-colors duration-150 hover:bg-white/12 max-[900px]:justify-center' +
+                    'flex items-center gap-2.5 py-2.25 px-3 rounded-lg text-white/90 no-underline text-sm font-medium transition-colors duration-150 hover:bg-white/12 min-[641px]:max-[900px]:justify-center' +
                     (isActive ? ' bg-white/24 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.3)]' : '')
                   }
                 >
                   <Icon className="w-4.5 h-4.5 shrink-0" />
-                  <span className="max-[900px]:hidden">{label}</span>
+                  <span className="min-[641px]:max-[900px]:hidden">{label}</span>
                   {badge != null && (
-                    <span className="ml-auto bg-white/90 text-accent-strong text-[11px] font-bold rounded-full px-1.75 py-px max-[900px]:hidden">
+                    <span className="ml-auto bg-white/90 text-accent-strong text-[11px] font-bold rounded-full px-1.75 py-px min-[641px]:max-[900px]:hidden">
                       {badge}
                     </span>
                   )}
@@ -43,14 +72,19 @@ export default function AppLayout() {
       </aside>
 
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="flex items-center gap-4 py-3.5 px-7 bg-surface border-b border-border">
+        <header className="flex items-center gap-4 py-3.5 px-7 max-[720px]:px-4 bg-surface border-b border-border">
           <button
-            className="hidden max-[900px]:flex w-8.5 h-8.5 rounded-lg border border-border bg-transparent text-text-muted items-center justify-center cursor-pointer hover:bg-accent-bg hover:text-accent hover:border-accent-border"
-            aria-label="Contraer menú"
+            className="hidden max-[640px]:flex w-8.5 h-8.5 rounded-lg border border-border bg-transparent text-text-muted items-center justify-center cursor-pointer hover:bg-accent-bg hover:text-accent hover:border-accent-border"
+            aria-label={mobileNavOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={mobileNavOpen}
             type="button"
+            onClick={() => setMobileNavOpen((open) => !open)}
           >
             <MenuIcon className="w-4.5 h-4.5" />
           </button>
+          <div className="hidden max-[640px]:block font-semibold text-sm text-text-h">
+            Incluyendo Capacidades
+          </div>
         </header>
 
         <main className="flex-1 py-7 px-8 max-[720px]:px-4 max-[720px]:py-5">
